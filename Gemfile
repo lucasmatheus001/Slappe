@@ -68,3 +68,5 @@ gem "devise", "~> 4.9"
 gem "enum"
 
 gem "letter_opener", "~> 1.10"
+
+gem "image_processing", "~> 1.14"
