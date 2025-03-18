@@ -1,0 +1,10 @@
+<h1><%= @user.name %></h1>
+
+<p>Email: <%= @user.email %></p>
+<p>Seguidores: <%= @user.followers.count %></p>
+<p>Seguindo: <%= @user.following.count %></p>
+
+<%= render 'follow_button', user: @user %>
+
+<%= link_to "Ver Seguidores", followers_user_path(@user) %> |
+<%= link_to "Ver Seguindo", following_user_path(@user) %>

@@ -12,4 +12,8 @@ class User < ApplicationRecord
   #   enum role: { admin: 0, user: 1 }
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  def following?(other_user)
+    following.include?(other_user)
+  end
 end
