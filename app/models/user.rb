@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   # Um usuário pode seguir muitos outros usuários
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
