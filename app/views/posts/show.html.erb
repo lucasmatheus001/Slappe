@@ -1,4 +1,5 @@
 <h1><%= @post.content %></h1>
+<p>Por: <%= @post.user.name %></p>
 
 <% if @post.images.attached? %>
   <% @post.images.each do |image| %>
@@ -7,3 +8,31 @@
 <% end %>
 
 <%= link_to "Criar outro", new_post_path %>
+
+<h2>Comentários</h2>
+<% @post.comments.each do |comment| %>
+  <p><strong><%= comment.user.name %>:</strong> <%= comment.content %></p>
+  <% if comment.images.attached? %>
+    <% comment.images.each do |image| %>
+      <%= image_tag image.variant(resize_to_limit: [300, 300]).processed %>
+    <% end %>
+  <% end %>
+
+  <% if comment.user == current_user || current_user.admin? %>
+    <%= button_to "Excluir", post_comment_path(@post, comment), method: :delete, data: { confirm: "Tem certeza?" } %>
+  <% end %>
+<% end %>
+
+<hr>
+
+<%= form_with(model: [@post, Comment.new], local: true) do |form| %>
+  <p>
+    <%= form.text_area :content, rows: 5, class: "form-control", placeholder: "Adicione um comentário..." %>
+  </p>
+  <p>
+    <%= form.file_field :images, multiple: true, accept: "image/png,image/jpeg" %>
+  </p>
+  <p>
+    <%= form.submit "Comentar", class: "btn btn-primary" %>
+  </p>
+<% end %>

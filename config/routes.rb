@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   post "/follow/:id", to: "follows#create", as: "follow_user"
   delete "/unfollow/:id", to: "follows#destroy", as: "unfollow_user"
 
-  resources :posts
+  resources :posts do
+    resources :comments, only: [ :create, :destroy ]
+  end
+
   resources :users, only: [ :show ] do
     member do
       get :followers, :following

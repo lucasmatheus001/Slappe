@@ -4,6 +4,7 @@ class Post < ApplicationRecord
 
   has_many_attached :images
   validate :validate_image_count
+  validates :content, presence: true, length: { maximum: 255 }
 
   private
   def validate_image_count
