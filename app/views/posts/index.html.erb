@@ -2,7 +2,61 @@
 	<div class="container background">
 		<div class="row align-items-center g-5">
 			<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0">
-				<h1 class="mb-0 display-6">MyAnimes. Crie sua lista de animes favoritos!</h1>
+				<h1 class="mb-0 display-6">Portal de tweets interativos!</h1>
+
+				<% @posts.each do |post| %>
+					<h1><%= post.content %></h1>
+					<p>Por: <%= post.user.name %></p>
+
+					<% if post.images.attached? %>
+						<% post.images.each do |image| %>
+							<%= image_tag image.variant(resize_to_limit: [300, 300]).processed %>
+						<% end %>
+					<% end %>
+
+					<p>
+						<strong><%= post.likers.count %> ===> curtidas</strong>
+					</p>
+
+					<% if post.likers.include?(current_user) %>
+						<%= button_to "Descurtir", post_like_path(post), method: :delete, class: "btn btn-danger" %>
+					<% else %>
+						<%= button_to "Curtir", post_like_path(post), method: :post, class: "btn btn-primary" %>
+					<% end %>
+
+
+					<%= link_to "Criar outro", new_post_path %>
+
+					<h2>Comentários</h2>
+					<% post.comments.each do |comment| %>
+						<p><strong><%= comment.user.name %>:</strong> <%= comment.content %></p>
+						<% if comment.images.attached? %>
+							<% comment.images.each do |image| %>
+								<%= image_tag image.variant(resize_to_limit: [300, 300]).processed %>
+							<% end %>
+						<% end %>
+
+						<% if comment.user == current_user %>
+							<%= button_to "Excluir", post_comment_path(post, comment), method: :delete, data: { confirm: "Tem certeza?" } %>
+						<% end %>
+					<% end %>
+
+					<hr>
+
+					<%= form_with(model: [post, Comment.new], local: true) do |form| %>
+						<p>
+							<%= form.text_area :content, rows: 5, class: "form-control", placeholder: "Adicione um comentário..." %>
+						</p>
+						<p>
+							<%= form.file_field :images, multiple: true, accept: "image/png,image/jpeg" %>
+						</p>
+						<p>
+							<%= form.submit "Comentar", class: "btn btn-primary" %>
+						</p>
+					<% end %>
+
+
+				<% end %>
 			</div>
 		</div>
 	</div>

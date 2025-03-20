@@ -2,6 +2,9 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
 
+  has_many :post_likes, dependent: :destroy
+  has_many :liked_posts, through: :post_likes, source: :post
+
   # Um usuário pode seguir muitos outros usuários
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
   has_many :following, through: :active_follows, source: :followed
@@ -10,7 +13,7 @@ class User < ApplicationRecord
   has_many :passive_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_follows, source: :follower
 
-  #   enum role: { admin: 0, user: 1 }
+  # enum role: { admin: 2, user: 1 }
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 

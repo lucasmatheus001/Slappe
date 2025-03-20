@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_20_015115) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_20_164357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,6 +61,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_015115) do
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
+  create_table "post_likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_likes_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_post_likes_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_post_likes_on_user_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "content", default: ""
@@ -89,5 +99,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_015115) do
   add_foreign_key "comments", "users"
   add_foreign_key "follows", "users", column: "followed_id"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "post_likes", "posts"
+  add_foreign_key "post_likes", "users"
   add_foreign_key "posts", "users"
 end
