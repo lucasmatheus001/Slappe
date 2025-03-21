@@ -6,6 +6,10 @@ class Post < ApplicationRecord
   has_many :post_likes, dependent: :destroy
   has_many :likers, through: :post_likes, source: :user
 
+  # Reposts de postagens
+  has_many :reposts, dependent: :destroy
+  has_many :reposted_by_users, through: :reposts, source: :user
+
   has_many_attached :images
   validate :validate_image_count
   validates :content, presence: true, length: { maximum: 255 }

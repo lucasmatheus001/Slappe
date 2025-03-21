@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resource :like, only: [ :create, :destroy ], controller: "comment_likes"
     end
     resource :like, only: [ :create, :destroy ], controller: "post_likes"
+    resources :reposts, only: [ :create, :destroy ]
   end
 
   resources :users, only: [ :show ] do
