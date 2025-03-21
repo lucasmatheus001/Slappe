@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   delete "/unfollow/:id", to: "follows#destroy", as: "unfollow_user"
 
   resources :posts do
-    resources :comments, only: [ :create, :destroy ]
+    resources :comments, only: [ :create, :destroy ] do
+      resource :like, only: [ :create, :destroy ], controller: "comment_likes"
+    end
     resource :like, only: [ :create, :destroy ], controller: "post_likes"
   end
 
