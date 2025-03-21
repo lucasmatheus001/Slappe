@@ -3,7 +3,7 @@
 		<div class="row align-items-center g-5">
 			<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0">
 				<h1 class="mb-0 display-6">Portal de tweets interativos!</h1>
-
+				
 				<% @posts.each do |post| %>
 					<h1><%= post.content %></h1>
 					<p>Por: <%= post.user.name %></p>
@@ -18,12 +18,21 @@
 						<strong><%= post.likers.count %> ===> curtidas</strong>
 					</p>
 
+					<p>
+						👍 <%= post.likers.count %> | 💬 <%= post.comments.count %> | 🔁 <%= post.reposts.count %>
+					</p>
+
 					<% if post.likers.include?(current_user) %>
 						<%= button_to "Descurtir", post_like_path(post), method: :delete, class: "btn btn-danger" %>
 					<% else %>
 						<%= button_to "Curtir", post_like_path(post), method: :post, class: "btn btn-primary" %>
 					<% end %>
 
+					<% if current_user.reposted_posts.include?(post) %>
+						<%= button_to "Desfazer Repost", post_repost_path(post, current_user.reposts.find_by(post_id: post.id)), method: :delete, class: "btn btn-danger" %>
+					<% else %>
+						<%= button_to "Repostar", post_reposts_path(post), method: :post, class: "btn btn-primary" %>
+					<% end %>
 
 					<%= link_to "Criar outro", new_post_path %>
 
@@ -65,8 +74,26 @@
 							<%= form.submit "Comentar", class: "btn btn-primary" %>
 						</p>
 					<% end %>
+				<% end %>
+				<% @reposts.each do |repost| %>
+					<div class="repost">
+						<p>🚀 <strong><%= repost.user.name %></strong> repostou</p>
 
+						<!-- Exibe o conteúdo do post original -->
+						<p><strong><%= repost.post.user.name %>:</strong> <%= repost.post.content %></p>
 
+						<% if repost.post.images.attached? %>
+							<div class="post-images">
+								<% repost.post.images.each do |image| %>
+									<%= image_tag image.variant(resize_to_limit: [300, 300]).processed, class: "img-thumbnail" %>
+								<% end %>
+							</div>
+						<% end %>
+
+						<p>
+							👍 <%= repost.post.likers.count %> | 💬 <%= repost.post.comments.count %> | 🔁 <%= repost.post.reposts.count %>
+						</p>
+					</div>
 				<% end %>
 			</div>
 		</div>

@@ -18,6 +18,10 @@ class User < ApplicationRecord
   has_many :passive_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_follows, source: :follower
 
+  # Reposts de postagens
+  has_many :reposts, dependent: :destroy
+  has_many :reposted_posts, through: :reposts, source: :post
+
   # enum role: { admin: 2, user: 1 }
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
