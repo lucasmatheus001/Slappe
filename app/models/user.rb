@@ -2,8 +2,13 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
 
+  # post curtidos por um usuário
   has_many :post_likes, dependent: :destroy
   has_many :liked_posts, through: :post_likes, source: :post
+
+  # comentarios curtidos por um usuário
+  has_many :comment_likes, dependent: :destroy
+  has_many :liked_comments, through: :comment_likes, source: :comment
 
   # Um usuário pode seguir muitos outros usuários
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy

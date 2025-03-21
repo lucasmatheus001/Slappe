@@ -36,8 +36,19 @@
 							<% end %>
 						<% end %>
 
+						<p>
+							<strong><%= comment.comment_likers.count %> ===> curtidas do comentário</strong>
+						</p>
+
+						<% if comment.comment_likers.include?(current_user) %>
+							<%= button_to "Descurtir", post_comment_like_path(comment.post, comment), method: :delete, class: "btn btn-danger" %>
+						<% else %>
+							<%= button_to "Curtir", post_comment_like_path(comment.post, comment), method: :post, class: "btn btn-primary" %>
+						<% end %>
+
+
 						<% if comment.user == current_user %>
-							<%= button_to "Excluir", post_comment_path(post, comment), method: :delete, data: { confirm: "Tem certeza?" } %>
+							<%= button_to "Excluir", post_comment_path(comment.post, comment), method: :delete, data: { confirm: "Tem certeza?" } %>
 						<% end %>
 					<% end %>
 

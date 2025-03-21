@@ -8,13 +8,13 @@
 <% end %>
 
 <p>
-  <strong><%= post.likers.count %> ===> curtidas</strong>
+  <strong><%= @post.likers.count %> ===> curtidas</strong>
 </p>
 
-<% if post.likers.include?(current_user) %>
-  <%= button_to "Descurtir", post_like_path(post), method: :delete, class: "btn btn-danger" %>
+<% if @post.likers.include?(current_user) %>
+  <%= button_to "Descurtir", post_like_path(@post), method: :delete, class: "btn btn-danger" %>
 <% else %>
-  <%= button_to "Curtir", post_like_path(post), method: :post, class: "btn btn-primary" %>
+  <%= button_to "Curtir", post_like_path(@post), method: :post, class: "btn btn-primary" %>
 <% end %>
 
 

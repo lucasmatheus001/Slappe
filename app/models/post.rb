@@ -1,6 +1,8 @@
 class Post < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
+
+  # post curtidos por um usuário
   has_many :post_likes, dependent: :destroy
   has_many :likers, through: :post_likes, source: :user
 
