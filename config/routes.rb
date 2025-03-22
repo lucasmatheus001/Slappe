@@ -19,8 +19,10 @@ Rails.application.routes.draw do
 
   resources :users, only: [ :show ] do
     member do
-      get :followers, :following
+      get "/followers", to: "users#followers", as: :user_followers
+      get "/following", to: "users#following", as: :user_following
     end
+    resource :follow, only: [ :create, :destroy ]
   end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)

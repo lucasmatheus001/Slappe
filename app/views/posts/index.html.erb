@@ -8,6 +8,14 @@
 					<h1><%= post.content %></h1>
 					<p>Por: <%= post.user.name %></p>
 
+					<% if current_user != post.user %>
+						<% if current_user.following.include?(post.user) %>
+							<%= button_to "Deixar de Seguir", unfollow_user_path(post.user), method: :delete, class: "btn btn-danger" %>
+						<% else %>
+							<%= button_to "Seguir", follow_user_path(post.user), method: :post, class: "btn btn-primary" %>
+						<% end %>
+					<% end %>
+
 					<% if post.images.attached? %>
 						<% post.images.each do |image| %>
 							<%= image_tag image.variant(resize_to_limit: [300, 300]).processed %>

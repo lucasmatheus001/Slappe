@@ -1,13 +1,29 @@
 class FollowsController < ApplicationController
+  before_action :set_user
+
   def create
-    user = User.find(params[:id])
-    current_user.following << user unless current_user.following?(user)
-    redirect_back fallback_location: user_path(user)
+    if current_user.following.include?(@user)
+      flash[:notice] = "Você já segue este usuário."
+    else
+      current_user.following << @user
+      flash[:success] = "Agora você está seguindo #{@user.name}."
+    end
+    redirect_to @user
   end
 
   def destroy
-    user = User.find(params[:id])
-    current_user.following.delete(user)
-    redirect_back fallback_location: user_path(user)
+    if current_user.following.include?(@user)
+      current_user.following.delete(@user)
+      flash[:success] = "Você deixou de seguir #{@user.name}."
+    else
+      flash[:notice] = "Você não segue este usuário."
+    end
+    redirect_to @user
+  end
+
+  private
+
+  def set_user
+    @user = User.find(params[:id])
   end
 end

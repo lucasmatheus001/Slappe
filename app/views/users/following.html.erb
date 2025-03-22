@@ -3,3 +3,5 @@
 <% @user.following.each do |followed| %>
   <p><%= link_to followed.name, user_path(followed) %></p>
 <% end %>
+<%= link_to "Voltar", user_path(@user) %>
+
