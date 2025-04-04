@@ -1,6 +1,8 @@
 /* Estilos personalizados */
 body {
-  background-color: #c2c8ce;
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
+  // border: solid rgba(0, 0, 0, .15);
 }
 
 h1 {

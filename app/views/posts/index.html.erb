@@ -1,3 +1,172 @@
+<div class="row g-5">
+	<div class="col-md-8">
+		<article class="blog-post">			
+			<h5 class="border-bottom pb-2 mb-0">Recent updates</h5>	
+			<% @posts.each do |post| %>
+				<div class="my-3 p-3 bg-body rounded shadow-sm">
+					<div class="d-flex text-body-secondary pt-3">
+						<a href="#" class="d-block link-body-emphasis text-decoration-none bd-placeholder-img flex-shrink-0 me-2" aria-expanded="false">
+							<img src="https://github.com/mdo.png" alt="mdo" width="40" height="40" class="rounded-circle">
+						</a>
+						<p class="pb-3 mb-0 small lh-sm ">
+								<strong class="d-block text-gray-dark"> <%= post.user.name %> 11h</strong>
+								<%= post.content %>
+						</p>
+					</div>
+					<hr>
+
+					<div class="pt-2 container-fluid">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+							<% if post.images.attached? %>
+								<% post.images.each do |image| %>
+									<div class="col">
+										<div class="card shadow-sm">
+												<%= image_tag image.variant(resize_to_fill: [400, 400]).processed , class: "bd-placeholder-img card-img-top" %>
+										</div>
+									</div>
+								<% end %>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</article>
+	</div>
+	<div class="col-md-4">
+		<div style="top: 2rem;" class="position-sticky">
+			<div>
+				<h5 class="border-bottom pb-2 mb-0">Who to follow</h5>
+				<div class="my-3 p-3 bg-body rounded shadow-sm">
+					<div class="d-flex text-body-secondary pt-3">
+						<a class="bd-placeholder-img flex-shrink-0 me-2 rounded" href="#">		
+							<img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle bd-placeholder-img">
+						</a>
+						<div class="pb-3 mb-0 small lh-sm w-100">
+							<div class="d-flex justify-content-between">
+								<strong class="text-gray-dark">Full Name</strong>
+								<a href="#">
+									<button aria-describedby="id__x3rq8bztqvb" aria-label="Follow @Tesla" role="button" class="css-175oi2r r-sdzlij r-1phboty r-rs99b7 r-lrvibr r-15ysp7h r-4wgw6l r-3pj75a r-1loqt21 r-o7ynqc r-6416eg r-1ny4l3l" data-testid="13298072-follow" type="button" style="border-color: rgba(0, 0, 0, 0); background-color: rgb(15, 20, 25);">
+										<div dir="ltr" class="css-146c3p1 r-bcqeeo r-qvutc0 r-37j5jr r-q4m81j r-a023e6 r-rjixqe r-b88u0q r-1awozwy r-6koalj r-18u37iz r-16y2uox r-1777fci" style="color: rgb(255, 255, 255);">
+											<span class="css-1jxf684 r-dnmrzs r-1udh08x r-1udbk01 r-3s2u2q r-bcqeeo r-1ttztb7 r-qvutc0 r-poiln3 r-1b43r93 r-1cwl3u0">
+												<span class="css-1jxf684 r-bcqeeo r-1ttztb7 r-qvutc0 r-poiln3">Follow</span>
+											</span>
+										</div>
+									</button>
+								</a>
+							</div>
+							<span class="d-block">@username</span>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+	<h6 class="border-bottom pb-2 mb-0">Recent updates</h6>
+	<div class="d-flex text-body-secondary pt-3">
+		<a href="#" class="d-block link-body-emphasis text-decoration-none bd-placeholder-img flex-shrink-0 me-2" aria-expanded="false">
+			<img src="https://github.com/mdo.png" alt="mdo" width="40" height="40" class="rounded-circle">
+		</a>
+		<p class="pb-3 mb-0 small lh-sm border-bottom">
+			<strong class="d-block text-gray-dark">Narendra Modi
+@narendramodi
+·
+11h</strong>
+Grateful for the warm welcome by the Indian community in Bangkok.
+
+India and Thailand share a deep-rooted cultural bond that continues to flourish through our people. Heartening to see this connection reflected so strongly here.</p>
+	</div>
+	
+	
+	<small class="d-block text-end mt-3">
+		<a href="#">All updates</a>
+	</small>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+	<h6 class="border-bottom pb-2 mb-0">Recent updates</h6>
+	<div class="d-flex text-body-secondary pt-3">
+		<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+		<p class="pb-3 mb-0 small lh-sm border-bottom">
+			<strong class="d-block text-gray-dark">@username</strong>
+			Some representative placeholder content, with some information about this user. Imagine this being some sort of status update, perhaps?
+		</p>
+	</div>
+	<div class="d-flex text-body-secondary pt-3">
+		<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"></rect><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
+		<p class="pb-3 mb-0 small lh-sm border-bottom">
+			<strong class="d-block text-gray-dark">@username</strong>
+			Some more representative placeholder content, related to this other user. Another status update, perhaps.
+		</p>
+	</div>
+	<div class="d-flex text-body-secondary pt-3">
+		<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"></rect><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
+		<p class="pb-3 mb-0 small lh-sm border-bottom">
+			<strong class="d-block text-gray-dark">@username</strong>
+			This user also gets some representative placeholder content. Maybe they did something interesting, and you really want to highlight this in the recent updates.
+		</p>
+	</div>
+	<small class="d-block text-end mt-3">
+		<a href="#">All updates</a>
+	</small>
+</div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+	<h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
+	<div class="d-flex text-body-secondary pt-3">
+		<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+		<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+			<div class="d-flex justify-content-between">
+				<strong class="text-gray-dark">Full Name</strong>
+				<a href="#">Follow</a>
+			</div>
+			<span class="d-block">@username</span>
+		</div>
+	</div>
+	<div class="d-flex text-body-secondary pt-3">
+		<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+		<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+			<div class="d-flex justify-content-between">
+				<strong class="text-gray-dark">Full Name</strong>
+				<a href="#">Follow</a>
+			</div>
+			<span class="d-block">@username</span>
+		</div>
+	</div>
+	<div class="d-flex text-body-secondary pt-3">
+		<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+		<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+			<div class="d-flex justify-content-between">
+				<strong class="text-gray-dark">Full Name</strong>
+				<a href="#">Follow</a>
+			</div>
+			<span class="d-block">@username</span>
+		</div>
+	</div>
+	<small class="d-block text-end mt-3">
+		<a href="#">All suggestions</a>
+	</small>
+</div>
+
 <section class="py-7">
 	<div class="container background">
 		<div class="row align-items-center g-5">
