@@ -3,6 +3,7 @@ class PostsController < ApplicationController
   def index
     @posts = Post.includes(:user).order(created_at: :desc)
     @reposts = Repost.includes(:user, :post).order(created_at: :desc)
+    @post = Post.new
   end
 
   def show
@@ -14,7 +15,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to @post
+      redirect_to posts_path
     else
       render :edit
     end

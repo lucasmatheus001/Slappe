@@ -1,6 +1,4 @@
-
-  
-<div class="card" style="background-color:#f6f6f6;">
+<div class="card" style="">
   <div class="card-body">
     <%= form_with model: post do |form| %>
       
@@ -15,11 +13,10 @@
       </div>
 
       <div class="form-group">
-        <%= form.label :content %>
-        <%= form.text_field :content, class: "form-control" %>
+        <%= form.text_area :content, class: "form-control", rows: 6, placeholder: "What's happening?" %>
         <% post.errors.full_messages_for(:content).each do |message| %>
-                <div><%= message %></div>
-            <% end %>
+          <div><%= message %></div>
+        <% end %>
       </div>
 
       <div class="form-group">
@@ -29,8 +26,7 @@
                 <div><%= message %></div>
             <% end %>
       </div>
-
-      </div>
+      
       <%= form.submit %>
     <% end %>
   </div>
