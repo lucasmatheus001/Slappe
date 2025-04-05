@@ -1,49 +1,163 @@
-<h1><%= @post.content %></h1>
-<p>Por: <%= @post.user.name %></p>
+<div class="row g-5">
+	<div class="col-md-8">
+		<article class="blog-post">
+			<h5 class="border-bottom pb-2 mb-0">Recent updates</h5>
+      <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="d-flex text-body-secondary pt-3">
+          <a href="#" class="d-block link-body-emphasis text-decoration-none bd-placeholder-img flex-shrink-0 me-2" aria-expanded="false">
+            <%= image_tag(
+              @post.user.avatar.attached? ? url_for(@post.user.avatar) : "https://github.com/mdo.png",
+              alt: "Foto de perfil",
+              width: 40,
+              height: 40,
+              class: "rounded-circle"
+            ) %>
+          </a>
+          <div class="d-flex justify-content-between w-100">
+            <p class="pb-3 mb-0 small lh-sm ">
+              <strong class="d-block text-gray-dark"> <%= @post.user.name %> 11h</strong>
+            </p>
+            
+            <% if current_user != @post.user %>
+              <% if current_user.following.include?(@post.user) %>
+                <%= button_to "Deixar de Seguir", unfollow_user_path(@post.user), method: :delete, class: "btn btn-danger" %>
+              <% else %>
+                <%= button_to "Seguir", follow_user_path(@post.user), method: :post, class: "btn btn-primary" %>
+              <% end %>
+            <% end %>
+          </div>
+          
+        </div>
+        <div class="pb-3 mb-0 small lh-sm d-block text-gray-dark">
+          <p class="pb-3 mb-0 small lh-sm d-block text-gray-dark">
+            <%= simple_format(@post.content) %>		
+          </p>
+        </div>
+        <hr>
 
-<% if @post.images.attached? %>
-  <% @post.images.each do |image| %>
-    <%= image_tag image.variant(resize_to_limit: [300, 300]).processed %>
-  <% end %>
-<% end %>
+        <div class="pt-2 container-fluid">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <% if @post.images.attached? %>
+              <% @post.images.each do |image| %>
+                <div class="col">
+                  <div class="card shadow-sm">
+                      <%= image_tag image.variant(resize_to_fill: [400, 400]).processed , class: "bd-placeholder-img card-img-top" %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between w-100 text-info" id="post-info">
+          <p class="pb-3 mb-1  text-center text-icons">
+            <% if @post.likers.include?(current_user) %>
+              <%= button_to "👍 #{@post.likers.count} Descurtir", post_like_path(@post), method: :delete, class: "btn btn-danger" %>
+            <% else %>
+              <%= button_to "👍 #{@post.likers.count} Curtir", post_like_path(@post), method: :post, class: "btn btn-primary" %>
+            <% end %>
+          </p>
+          <%= button_to "💬 #{@post.comments.count} Comentários", post_like_path(@post), class: "btn btn-warning" %>
+          <p class="pb-3 mb-1  text-center text-icons">
+            <% if current_user.reposted_posts.include?(@post) %>
+              <%= button_to "🔁 #{@post.reposts.count} Desfazer Repost", post_repost_path(@post, current_user.reposts.find_by(post_id: @post.id)), method: :delete, class: "btn btn-danger" %>
+            <% else %>
+              <%= button_to "🔁 #{@post.reposts.count} Repostar", post_reposts_path(@post), method: :post, class: "btn btn-primary" %>
+            <% end %>
+          </p>
+          <% if @post.user == current_user %>
+            <%= button_to "Editar", edit_post_path(@post),method: :get, class: "btn btn-warning" %>
+            <%= button_to "Excluir", post_path(@post), method: :delete,class: "btn btn-danger comment-blank", data: { confirm: "Tem certeza?" } %>
+          <% end %>
+        </div>
 
-<p>
-  <strong><%= @post.likers.count %> ===> curtidas</strong>
-</p>
+        <div class="comment">
+          <%= form_with(model: [@post, Comment.new], local: true) do |form| %>
+            <p>
+              <%= form.text_area :content, rows: 5, class: "form-control", placeholder: "Adicione um comentário..." %>
+            </p>
+            <p>
+              <%= form.file_field :images, multiple: true, accept: "image/png,image/jpeg" %>
+            </p>
+            <p>
+              <%= form.submit "Comentar", class: "btn btn-primary" %>
+            </p>
+          <% end %>
+        </div>
+        <div class="comments">
+          <br>
+          <h2>Comentários</h2>
+          <hr>
+          <% @post.comments.each do |comment| %>
 
-<% if @post.likers.include?(current_user) %>
-  <%= button_to "Descurtir", post_like_path(@post), method: :delete, class: "btn btn-danger" %>
-<% else %>
-  <%= button_to "Curtir", post_like_path(@post), method: :post, class: "btn btn-primary" %>
-<% end %>
-
-
-<%= link_to "Criar outro", new_post_path %>
-
-<h2>Comentários</h2>
-<% @post.comments.each do |comment| %>
-  <p><strong><%= comment.user.name %>:</strong> <%= comment.content %></p>
-  <% if comment.images.attached? %>
-    <% comment.images.each do |image| %>
-      <%= image_tag image.variant(resize_to_limit: [300, 300]).processed %>
-    <% end %>
-  <% end %>
-
-  <% if comment.user == current_user || current_user.admin? %>
-    <%= button_to "Excluir", post_comment_path(@post, comment), method: :delete, data: { confirm: "Tem certeza?" } %>
-  <% end %>
-<% end %>
-
-<hr>
-
-<%= form_with(model: [@post, Comment.new], local: true) do |form| %>
-  <p>
-    <%= form.text_area :content, rows: 5, class: "form-control", placeholder: "Adicione um comentário..." %>
-  </p>
-  <p>
-    <%= form.file_field :images, multiple: true, accept: "image/png,image/jpeg" %>
-  </p>
-  <p>
-    <%= form.submit "Comentar", class: "btn btn-primary" %>
-  </p>
-<% end %>
+            <div class="d-flex text-body-secondary justify-content-between w-100">
+              <a href="#" class="d-block link-body-emphasis text-decoration-none bd-placeholder-img flex-shrink-0 me-2" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="mdo" width="40" height="40" class="rounded-circle">
+              </a>
+              <div class="d-flex justify-content-between w-100">
+                <p class="pb-3 mb-0 small lh-sm ">
+                    <strong class="d-block text-gray-dark"> <%= comment.user.name %> 11h</strong>
+                    <%= comment.content %>
+                </p>
+                <% if comment.comment_likers.include?(current_user) %>
+                  <%= button_to "👍 #{comment.comment_likers.count} Descurtir", post_comment_like_path(comment.post, comment), method: :delete, class: "btn btn-danger" %>
+                <% else %>
+                  <%= button_to "👍 #{comment.comment_likers.count} Curtir", post_comment_like_path(comment.post, comment), method: :post, class: "btn btn-primary" %>
+                <% end %>
+              </div>
+              <% if comment.user == current_user %>
+                <%= button_to "Excluir", post_comment_path(comment.post, comment), method: :delete,class: "btn btn-danger comment-blank", data: { confirm: "Tem certeza?" } %>
+              <% end %>
+            </div>
+            <hr>
+            
+            <div class="pt-2 container-fluid">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <% if comment.images.attached? %>
+                  <% comment.images.each do |image| %>								
+                    <div class="col">
+                      <div class="card shadow-sm">
+                        <%= image_tag image.variant(resize_to_fill: [400, 400]).processed , class: "bd-placeholder-img card-img-top" %>
+                      </div>
+                      <hr>
+                    </div>									
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+			
+		</article>
+	</div>
+	<div class="col-md-4">
+		<div style="top: 2rem;" class="position-sticky">
+			<div>
+				<h5 class="border-bottom pb-2 mb-0">Who to follow</h5>
+				<div class="my-3 p-3 bg-body rounded shadow-sm">
+					<div class="d-flex text-body-secondary pt-3">
+						<a class="bd-placeholder-img flex-shrink-0 me-2 rounded" href="#">		
+							<img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle bd-placeholder-img">
+						</a>
+						<div class="pb-3 mb-0 small lh-sm w-100">
+							<div class="d-flex justify-content-between">
+								<strong class="text-gray-dark">Full Name</strong>
+								<a href="#">
+									<button aria-describedby="id__x3rq8bztqvb" aria-label="Follow @Tesla" role="button" class="css-175oi2r r-sdzlij r-1phboty r-rs99b7 r-lrvibr r-15ysp7h r-4wgw6l r-3pj75a r-1loqt21 r-o7ynqc r-6416eg r-1ny4l3l" data-testid="13298072-follow" type="button" style="border-color: rgba(0, 0, 0, 0); background-color: rgb(15, 20, 25);">
+										<div dir="ltr" class="css-146c3p1 r-bcqeeo r-qvutc0 r-37j5jr r-q4m81j r-a023e6 r-rjixqe r-b88u0q r-1awozwy r-6koalj r-18u37iz r-16y2uox r-1777fci" style="color: rgb(255, 255, 255);">
+											<span class="css-1jxf684 r-dnmrzs r-1udh08x r-1udbk01 r-3s2u2q r-bcqeeo r-1ttztb7 r-qvutc0 r-poiln3 r-1b43r93 r-1cwl3u0">
+												<span class="css-1jxf684 r-bcqeeo r-1ttztb7 r-qvutc0 r-poiln3">Follow</span>
+											</span>
+										</div>
+									</button>
+								</a>
+							</div>
+							<span class="d-block">@username</span>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>    
