@@ -4,6 +4,7 @@ class PostsController < ApplicationController
     @posts = Post.includes(:user).order(created_at: :desc)
     @reposts = Repost.includes(:user, :post).order(created_at: :desc)
     @post = Post.new
+    @indications = User.where.not(id: current_user.id).order("RANDOM()").limit(10)
   end
 
   def show

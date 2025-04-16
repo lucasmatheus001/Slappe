@@ -206,27 +206,34 @@
 			<div>
 				<h5 class="border-bottom pb-2 mb-0">Who to follow</h5>
 				<div class="my-3 p-3 bg-body rounded shadow-sm">
-					<div class="d-flex text-body-secondary pt-3">
-						<a class="bd-placeholder-img flex-shrink-0 me-2 rounded" href="#">		
-							<img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle bd-placeholder-img">
-						</a>
-						<div class="pb-3 mb-0 small lh-sm w-100">
-							<div class="d-flex justify-content-between">
-								<strong class="text-gray-dark">Full Name</strong>
-								<a href="#">
-									<button aria-describedby="id__x3rq8bztqvb" aria-label="Follow @Tesla" role="button" class="css-175oi2r r-sdzlij r-1phboty r-rs99b7 r-lrvibr r-15ysp7h r-4wgw6l r-3pj75a r-1loqt21 r-o7ynqc r-6416eg r-1ny4l3l" data-testid="13298072-follow" type="button" style="border-color: rgba(0, 0, 0, 0); background-color: rgb(15, 20, 25);">
-										<div dir="ltr" class="css-146c3p1 r-bcqeeo r-qvutc0 r-37j5jr r-q4m81j r-a023e6 r-rjixqe r-b88u0q r-1awozwy r-6koalj r-18u37iz r-16y2uox r-1777fci" style="color: rgb(255, 255, 255);">
-											<span class="css-1jxf684 r-dnmrzs r-1udh08x r-1udbk01 r-3s2u2q r-bcqeeo r-1ttztb7 r-qvutc0 r-poiln3 r-1b43r93 r-1cwl3u0">
-												<span class="css-1jxf684 r-bcqeeo r-1ttztb7 r-qvutc0 r-poiln3">Follow</span>
-											</span>
+					<% @indications.each do |indication| %>
+						<% if current_user != indication %>
+							<% if !current_user.following.include?(indication) %>
+								<div class="d-flex text-body-secondary pt-3">
+									<div class="d-flex text-body-secondary justify-content-between w-100">
+										<a href="/users/<%="#{indication.id}"%>" class="d-block link-body-emphasis text-decoration-none bd-placeholder-img flex-shrink-0 me-2" aria-expanded="false">
+											<%= image_tag(
+												indication.avatar.attached? ? url_for(indication.avatar) : "https://github.com/mdo.png",
+												alt: "Foto de perfil",
+												width: 40,
+												height: 40,
+												class: "rounded-circle"
+											) %>
+										</a>
+										<div class="d-flex justify-content-between w-100">
+											<p class="pb-3 mb-0 small lh-sm ">
+													<strong class="d-block text-gray-dark"> <%= indication.name %> 11h</strong>
+											</p>
+											<%= button_to "Seguir", follow_user_path(indication), method: :post, class: "btn btn-primary" %>
+
+											
 										</div>
-									</button>
-								</a>
-							</div>
-							<span class="d-block">@username</span>
-						</div>
-					</div>
-					<hr>
+									</div>
+								</div>
+								<hr>
+							<% end %>
+						<% end %>
+					<% end %>
 				</div>
 			</div>
 		</div>
