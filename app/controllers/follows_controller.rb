@@ -8,7 +8,7 @@ class FollowsController < ApplicationController
       current_user.following << @user
       flash[:success] = "Agora você está seguindo #{@user.name}."
     end
-    redirect_to @user
+    redirect_to root_path
   end
 
   def destroy
@@ -18,7 +18,7 @@ class FollowsController < ApplicationController
     else
       flash[:notice] = "Você não segue este usuário."
     end
-    redirect_to @user
+    redirect_to root_path
   end
 
   private
