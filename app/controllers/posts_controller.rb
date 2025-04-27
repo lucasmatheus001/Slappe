@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
   def index
-    @posts = Post.includes(:user).order(created_at: :desc)
-    @reposts = Repost.includes(:user, :post).order(created_at: :desc)
+    @posts = Post.includes(:user).order(created_at: :desc).page(params[:page]).per(2)
+    @reposts = Repost.includes(:user, :post).order(created_at: :desc).page(params[:page]).per(2)
     @post = Post.new
     @indications = User.where.not(id: current_user.id).order("RANDOM()").limit(10)
   end

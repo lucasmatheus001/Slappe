@@ -1,7 +1,29 @@
 <h1>Usuários que <%= @user.name %> está seguindo</h1>
 
 <% @user.following.each do |followed| %>
-  <p><%= link_to followed.name, user_path(followed) %></p>
+   <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="d-flex text-body-secondary justify-content-between w-100">
+        <a href="/users/<%="#{followed.id}"%>" class="d-block link-body-emphasis text-decoration-none bd-placeholder-img flex-shrink-0 me-2" aria-expanded="false">
+          <%= image_tag(
+            followed.avatar.attached? ? url_for(followed.avatar) : "https://github.com/mdo.png",
+            alt: "Foto de perfil",
+            width: 40,
+            height: 40,
+            class: "rounded-circle"
+          ) %>
+        </a>
+        <div class="d-flex justify-content-between w-100">
+          <p class="pb-3 mb-0 small lh-sm ">
+            <strong class="d-block text-gray-dark"> 
+              <%= link_to followed.name, user_path(followed) %>
+            </strong>
+          </p>             
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>
+<%= paginate @following %>
 <%= link_to "Voltar", user_path(@user) %>
 

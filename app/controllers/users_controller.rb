@@ -34,13 +34,20 @@ class UsersController < ApplicationController
   end
 
   def followers
-    @followers = @user.followers
+    @followers = @user.followers.order(created_at: :desc).page(params[:page]).per(2)
   end
 
   def following
-    @following = @user.following
+    @following = @user.following.order(created_at: :desc).page(params[:page]).per(2)
   end
 
+  def search
+    if params[:query].present?
+      @users = User.where("name ILIKE ?", "%#{params[:query]}%").order("RANDOM()").page(params[:page]).per(2)
+    else
+      @users = User.none
+    end
+  end
   private
 
   def set_user

@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [ :show ] do
+    collection do
+      get :search
+    end
     member do
       get "/followers", to: "users#followers", as: :user_followers
       get "/following", to: "users#following", as: :user_following

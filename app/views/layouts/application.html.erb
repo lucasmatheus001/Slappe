@@ -29,15 +29,18 @@
         </a>
         <div class="p-2">
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <%= link_to "Home", posts_path,class: "nav-link px-2 text-secondary" %>
-            <li><a href="#" class="nav-link px-2 text-white">Seguidores</a></li>
+            <%= link_to "Home", posts_path,class: "nav-link px-2 text-secondary text-white" %>
+            <% if current_user.present? %>
+              <%= link_to "Seguidores", user_followers_user_path(current_user),class: "nav-link px-2 text-secondary text-white" %>
+              <%= link_to "Seguindo", user_following_user_path(current_user),class: "nav-link px-2 text-secondary text-white" %>
+            <% end %>
           </ul>
         </div>
         
-        <div class="p-2 ms-auto position-absolute top-50 start-50 end-0 translate-middle">
-          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-            <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-          </form>
+       <div class="p-2 ms-auto position-absolute top-50 start-50 end-0 translate-middle">
+          <%= form_with url: search_users_path, method: :get, local: true, class: "col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3", role: "search" do %>
+            <%= text_field_tag :query, params[:query], placeholder: "Search...", class: "form-control form-control-dark text-bg-dark text-white", aria: { label: "Search" } %>
+          <% end %>
         </div>
       
         <div class="p-2 position-absolute top-50 end-0 translate-middle-y ">
