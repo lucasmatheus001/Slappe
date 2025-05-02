@@ -1,7 +1,7 @@
 <% unless current_user == user %>
   <% if current_user.following?(user) %>
-    <%= button_to "Deixar de Seguir", unfollow_user_path(user), method: :delete, class: "btn btn-danger" %>
+    <%= button_to "Deixar de Seguir", unfollow_user_path(user), method: :delete, class: "btn btn-danger pb-3 mb-0 small lh-sm" %>
   <% else %>
-    <%= button_to "Seguir", follow_user_path(user), method: :post, class: "btn btn-primary" %>
+    <%= button_to "Seguir", follow_user_path(user), method: :post, class: "btn btn-primary pb-3 mb-0 small lh-sm" %>
   <% end %>
 <% end %>

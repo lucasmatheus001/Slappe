@@ -1,11 +1,41 @@
-<h1><%= @user.name %></h1>
-
-<p>Email: <%= @user.email %></p>
-<p>Seguidores: <%= @user.followers.count %></p>
-<p>Seguindo: <%= @user.following.count %></p>
-
-<%= render 'follow_button', user: @user %>
-<% if !@user.nil?%>
-  <%= link_to "Ver Seguidores", user_followers_user_path(@user) %> |
-  <%= link_to "Ver Seguindo", user_following_user_path(@user) %>
-<% end %>
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <div class="d-flex text-body-secondary pt-3">
+    <a href="#" class="d-block link-body-emphasis text-decoration-none bd-placeholder-img flex-shrink-0 me-2" aria-expanded="false">
+      <%= image_tag(
+          @user.avatar.attached? ? url_for(@user.avatar) : "https://github.com/mdo.png",
+          alt: "Foto de perfil",
+          width: 50,
+          height: 50,
+          class: "rounded-circle"
+        ) %>
+    </a>
+    <div class="d-flex justify-content-between w-100">
+      <p class="pb-3 mb-0 small lh-sm ">
+        <strong class="d-block text-gray-dark"> <%= @user.name %></strong>
+        <strong class="d-block text-gray-dark"> <%= @user.email %></strong>
+      </p>
+      <p class="pb-3 mb-0 small lh-sm ">
+        <strong class="d-block text-gray-dark"> <%= @user.followers.count %> Seguidores</strong>
+        <strong class="d-block text-gray-dark"> <%= @user.following.count %> Seguindo</strong>
+      </p>
+      
+      <% if current_user != @user %>
+        <% if current_user.following.include?(@user) %>
+          <%= button_to "Deixar de Seguir", unfollow_user_path(@user), method: :delete, class: "btn btn-danger" %>
+        <% else %>
+          <%= button_to "Seguir", follow_user_path(@user), method: :post, class: "btn btn-dark" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center w-100">
+    <% if !@user.nil?%>
+      <p class="pb-3 mb-0 small lh-sm ">
+        <%= button_to "Ver Seguidores", user_followers_user_path(@user), method: :get, class: "btn btn-dark p-botton" %>
+      </p>
+      <p class="pb-3 mb-0 small lh-sm ">
+        <%= button_to "Ver Seguindo", user_following_user_path(@user), method: :get, class: "btn btn-dark p-botton" %>
+      </p>
+    <% end %>
+  </div>
+</div>
