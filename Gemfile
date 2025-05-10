@@ -75,6 +75,6 @@ gem "image_processing", "~> 1.14"
 
 gem "rails-ujs", "~> 0.1.0"
 
-gem "bootstrap", "= 5.3.3"
+gem "bootstrap", "5.3.5"
 
 gem "dartsass-rails", "~> 0.5.1"
